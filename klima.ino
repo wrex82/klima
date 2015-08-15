@@ -15,7 +15,9 @@
 #define DHTPIN    22     
 #define DIODE     24
 #define FanLamp   29
-
+#define Fan       31
+#define Humifier  35
+#define Heater    37
 
 LiquidCrystal_I2C lcd(0x3f, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
 Lti Lti(23,25,27);
@@ -26,7 +28,9 @@ float tTemp[5];
 float ttTemp;
 float tHum[5];
 float ttHum;
-int maxTemp = 28;
+float minTemp = 18;
+float maxTemp = 28;
+float minHum = 55; 
 int light_status;
 
 // Uncomment whatever type you're using!
@@ -54,14 +58,20 @@ void setup() {
   
   
   //Define Relay
+  pinMode(FanLamp, INPUT_PULLUP);
   pinMode(FanLamp, OUTPUT);
-  digitalWrite(FanLamp, 1);
+  pinMode(Fan, OUTPUT);
+  pinMode(Humifier, INPUT_PULLUP);
+  pinMode(Humifier, OUTPUT);
+  pinMode(Heater, INPUT_PULLUP);
+  pinMode(Heater, OUTPUT);
+
   
   pinMode(DIODE, INPUT);
   
   lcd.clear();
   lcd.setCursor(0,1);
-  lcd.print("Relay 00000000");
+  lcd.print("Relay 00001000");
   
   dht.begin();
 }
@@ -164,6 +174,31 @@ void loop() {
     lcd.setCursor(0,2);
     lcd.print("LTI on LOW ");
 }
+
+  //Humifier Settings
+  if(Hum < minHum){
+    digitalWrite(Humifier, 0);
+    lcd.setCursor(12,1);
+    lcd.print("1");
+  }
+  else{
+   digitalWrite(Humifier, 1); 
+   lcd.setCursor(12,1);
+    lcd.print("0");
+  }
+  
+  
+  //Heater Settings
+  if(Temp < minTemp){
+   digitalWrite(Heater, 0); 
+   lcd.setCursor(13,1);
+   lcd.print("1");
+  }
+  else{
+   digitalWrite(Heater, 1);
+   lcd.setCursor(13,1);
+   lcd.print("0"); 
+  }
   
 //End loop()  
 }
