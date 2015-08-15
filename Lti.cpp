@@ -24,7 +24,6 @@ void Lti::reset(){
   digitalWrite(_pinLow, 1);
   digitalWrite(_pinMed, 1);
   digitalWrite(_pinHigh,1);
-  delay(500);
   _status = 0;
 }
 

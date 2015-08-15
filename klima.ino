@@ -26,7 +26,7 @@ float tTemp[5];
 float ttTemp;
 float tHum[5];
 float ttHum;
-int lti_status;  
+int maxTemp = 28;
 int light_status;
 
 // Uncomment whatever type you're using!
@@ -143,7 +143,7 @@ void loop() {
   lcd.setCursor(15,0);
   lcd.print(Hum);
   
-  if (Temp >= setTemp && Temp < 26) {
+  if (Temp >= setTemp && Temp < maxTemp) {
     Lti.med(); 
     lcd.setCursor(6,1);
     lcd.print("010");
